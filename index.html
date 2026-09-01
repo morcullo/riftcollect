@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>RiftCollect</title>
+<style>
+:root{--bg:#0c0d0f;--panel:#151619;--panel2:#1b1c20;--line:#292b30;--text:#f7f5f0;--muted:#92939a;--orange:#f28a35}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.app{min-height:100vh;background:radial-gradient(circle at 50% -5%,#2a1d13 0,#0c0d0f 35%)}.content{max-width:760px;margin:auto;padding:24px 18px 105px}header{display:flex;justify-content:space-between;align-items:center;margin:8px 0 26px}.eyebrow{font-size:10px;letter-spacing:.18em;font-weight:800;color:#a1a0a0;margin-bottom:5px}h1{font-size:30px;letter-spacing:-.05em;margin:0}h2{font-size:18px;margin:0}.roundAdd{width:44px;height:44px;border:0;border-radius:15px;background:var(--orange);color:#17110c;font-size:25px}.value{padding:24px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,#1e1a17,#141518);box-shadow:0 18px 50px #0008}.value label{font-size:10px;font-weight:800;letter-spacing:.15em;color:#999}.value strong{display:block;font-size:40px;letter-spacing:-.05em;margin:5px 0 14px}.meta{display:flex;gap:22px;color:var(--muted);font-size:13px}.section{display:flex;justify-content:space-between;align-items:center;margin:28px 2px 12px}.section small{color:var(--muted)}.search{height:48px;border:1px solid var(--line);background:var(--panel);border-radius:15px;display:flex;align-items:center;padding:0 13px;gap:10px;margin-bottom:14px}.search span{color:#777}.search input{flex:1;background:none;border:0;outline:0;color:white;font-size:14px}.recent{display:grid;gap:8px}.row{display:flex;align-items:center;gap:12px;padding:9px;border:1px solid var(--line);background:var(--panel);border-radius:16px}.row img{width:48px;height:67px;object-fit:cover;border-radius:7px;background:#24262a}.row .grow{flex:1}.row b{display:block;font-size:13px}.row span{display:block;font-size:11px;color:var(--muted);margin-top:4px}.row strong{color:#aaa;font-size:13px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.tile{overflow:hidden;border:1px solid var(--line);background:var(--panel);border-radius:17px}.tile img{display:block;width:100%;aspect-ratio:744/1039;object-fit:cover;background:#222}.tileInfo{padding:11px}.tileInfo b{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tileInfo span{font-size:11px;color:var(--muted)}.tileBottom{display:flex;justify-content:space-between;align-items:center;margin-top:9px}.controls{display:flex;gap:5px}.controls button{width:27px;height:27px;border:1px solid #35363b;background:#222328;color:#bbb;border-radius:8px}.empty{text-align:center;padding:55px 24px}.emptyIcon{width:58px;height:58px;border-radius:18px;background:#211b17;color:var(--orange);display:grid;place-items:center;margin:0 auto 16px;font-size:26px}.empty h3{margin:0 0 7px}.empty p{color:var(--muted);font-size:13px;line-height:1.5;max-width:310px;margin:0 auto 20px}.primary,.secondary{width:100%;border:0;border-radius:14px;padding:13px;font-weight:800;font-size:14px}.primary{background:var(--orange);color:#17110c}.secondary{background:#242529;color:#ddd;margin-top:8px}nav{position:fixed;z-index:20;bottom:0;left:0;right:0;height:78px;padding-bottom:env(safe-area-inset-bottom);background:#111216ed;border-top:1px solid var(--line);backdrop-filter:blur(18px);display:flex;justify-content:center;gap:min(22vw,150px);align-items:center}nav button{border:0;background:none;color:#777;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;font-weight:700}nav button.active{color:var(--orange)}.navAdd{width:54px;height:54px;border-radius:18px;background:var(--orange)!important;color:#17110c!important;font-size:25px;box-shadow:0 8px 24px #f28a3535}.sheetWrap{position:fixed;z-index:50;inset:0;background:#000b;display:flex;align-items:flex-end}.sheet{width:100%;max-width:760px;margin:auto;max-height:90vh;overflow:auto;background:#17181b;border:1px solid #303238;border-bottom:0;border-radius:26px 26px 0 0;padding:10px 18px 28px;animation:up .24s ease}.grab{width:38px;height:4px;background:#4a4b50;border-radius:9px;margin:3px auto 18px}.sheetHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.sheetHead h2{font-size:21px}.sheetHead p{margin:4px 0;color:var(--muted);font-size:12px}.close{width:36px;height:36px;border:1px solid var(--line);border-radius:12px;background:#242529;color:#aaa;font-size:19px}.results{display:grid;gap:7px}.result{width:100%;border:1px solid var(--line);background:#1d1e22;color:#fff;border-radius:14px;padding:8px;display:flex;align-items:center;gap:11px;text-align:left;cursor:pointer}.result img{width:43px;height:60px;object-fit:cover;border-radius:6px;background:#28292d}.result .grow{flex:1}.result b{display:block;font-size:13px}.result small{display:block;color:#888;margin-top:4px}.selected{text-align:center;padding:3px 12px}.hero{height:300px;max-width:215px;object-fit:contain;border-radius:12px;box-shadow:0 18px 45px #0008}.selected h3{margin:14px 0 4px}.selected p{color:#888;font-size:12px}.qty{display:flex;justify-content:center;align-items:center;gap:20px;margin:17px 0}.qty button{width:38px;height:38px;border:1px solid #35363b;background:#242529;color:#ccc;border-radius:12px}.muted{text-align:center;color:#777;font-size:13px;padding:30px}.error{color:#e9a477;background:#251b15;border:1px solid #4b3021;border-radius:12px;padding:12px;font-size:12px;line-height:1.45}@keyframes up{from{transform:translateY(100%)}to{transform:translateY(0)}}@media(min-width:600px){.grid{grid-template-columns:repeat(3,1fr)}.content{padding-top:42px}.sheetWrap{padding:0 20px}.sheet{border:1px solid #303238;border-radius:26px;margin-bottom:20px}}
+</style>
+</head>
+<body>
+<div class="app"><div id="content" class="content"></div></div><nav id="nav"></nav><div id="modal"></div>
+<script>
+const API='https://api.riftcodex.com';
+let page='dashboard', collection=JSON.parse(localStorage.getItem('riftcollect_v2')||'[]'), searchTimer;
+
+const money=n=>'$'+Number(n||0).toFixed(2);
+const img=c=>c?.media?.image_url||c?.image_url||'';
+const setName=c=>c?.set?.label||c?.set_name||'Riftbound';
+const rarity=c=>c?.classification?.rarity||c?.rarity||'Card';
+const price=c=>Number(c?.price||c?.market_price||c?.marketPrice||0);
+const esc=s=>String(s??'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' ');
+
+function save(){localStorage.setItem('riftcollect_v2',JSON.stringify(collection))}
+function add(c,q){let x=collection.find(v=>v.id===c.id);if(x)x.qty+=q;else collection.push({...c,qty:q});save();render()}
+function change(id,d){collection=collection.map(x=>x.id===id?{...x,qty:x.qty+d}:x).filter(x=>x.qty>0);save();render()}
+
+function nav(){document.getElementById('nav').innerHTML=`<button class="${page==='dashboard'?'active':''}" onclick="page='dashboard';render()">⌂<span>Home</span></button><button class="navAdd" onclick="openAdd()">＋</button><button class="${page==='collection'?'active':''}" onclick="page='collection';render()">▦<span>Collection</span></button>`}
+
+function empty(){return `<div class="empty"><div class="emptyIcon">▱</div><h3>Your collection is empty</h3><p>Start building your Riftbound collection by adding your first card.</p><button class="primary" onclick="openAdd()">＋ Add your first card</button></div>`}
+function row(c){return `<div class="row"><img src="${img(c)}"><div class="grow"><b>${c.name}</b><span>${setName(c)}</span></div><strong>${c.qty}×</strong></div>`}
+function dashboard(){let total=collection.reduce((s,c)=>s+price(c)*c.qty,0),count=collection.reduce((s,c)=>s+c.qty,0);return `<header><div><div class="eyebrow">RIFTCOLLECT</div><h1>Your collection</h1></div><button class="roundAdd" onclick="openAdd()">＋</button></header><section class="value"><label>COLLECTION VALUE</label><strong>${money(total)}</strong><div class="meta"><span>${count} cards</span><span>${collection.length} unique</span></div></section><div class="section"><h2>Recently added</h2><small>${collection.length}</small></div>${collection.length?`<div class="recent">${collection.slice(-6).reverse().map(row).join('')}</div>`:empty()}`}
+function collectionPage(){return `<header><div><div class="eyebrow">YOUR CARDS</div><h1>Collection</h1></div><button class="roundAdd" onclick="openAdd()">＋</button></header><div class="search"><span>⌕</span><input id="collectionSearch" placeholder="Search your collection..." oninput="filterCollection(this.value)"></div><div id="grid">${grid(collection)}</div>`}
+function grid(items){if(!items.length)return empty();return `<div class="grid">${items.map(c=>`<div class="tile"><img src="${img(c)}"><div class="tileInfo"><b>${c.name}</b><span>${setName(c)}</span><div class="tileBottom"><strong>${c.qty}×</strong><div class="controls"><button onclick="change('${esc(c.id)}',-1)">−</button><button onclick="change('${esc(c.id)}',1)">＋</button></div></div></div></div>`).join('')}</div>`}
+function filterCollection(q){document.getElementById('grid').innerHTML=grid(collection.filter(c=>c.name?.toLowerCase().includes(q.toLowerCase())))}
+
+function openAdd(){document.getElementById('modal').innerHTML=`<div class="sheetWrap" onclick="if(event.target===this)closeAdd()"><div class="sheet"><div class="grab"></div><div class="sheetHead"><div><h2>Add to collection</h2><p>Search Riftcodex by card name</p></div><button class="close" onclick="closeAdd()">×</button></div><div class="search"><span>⌕</span><input id="cardSearch" autofocus placeholder="Search cards..." oninput="searchCards(this.value)"></div><div id="results"><div class="muted">Start typing a card name</div></div></div></div>`}
+function closeAdd(){document.getElementById('modal').innerHTML=''}
+
+async function fetchCards(q){
+ const url=API+'/cards/name?fuzzy='+encodeURIComponent(q)+'&size=12&page=1&sort=name&dir=1';
+ const r=await fetch(url,{method:'GET',headers:{Accept:'application/json'}});
+ if(!r.ok)throw new Error('Riftcodex returned HTTP '+r.status);
+ const d=await r.json();
+ if(Array.isArray(d))return d;
+ return d.items||d.cards||d.data||[];
+}
+function searchCards(q){
+ clearTimeout(searchTimer);
+ const box=document.getElementById('results');
+ if(q.trim().length<2){box.innerHTML='<div class="muted">Start typing a card name</div>';return}
+ box.innerHTML='<div class="muted">Searching Riftcodex…</div>';
+ searchTimer=setTimeout(async()=>{
+   try{
+     const cards=await fetchCards(q.trim());
+     box.innerHTML=cards.length?cards.map(c=>`<button class="result" onclick="selectCardById('${esc(c.id)}')"><img src="${img(c)}"><div class="grow"><b>${c.name}</b><small>${setName(c)} · ${rarity(c)}</small></div>›</button>`).join(''):'<div class="muted">No cards found</div>';
+     window._searchCards=cards;
+   }catch(e){
+     box.innerHTML=`<div class="error"><b>Could not reach Riftcodex.</b><br>${e.message}<br><br>Make sure this page is being served from <b>http://</b> or <b>https://</b>, not opened directly as a file.</div>`;
+   }
+ },250);
+}
+function selectCardById(id){const c=(window._searchCards||[]).find(x=>x.id===id);if(c)selectCard(c)}
+function selectCard(c){document.getElementById('results').innerHTML=`<div class="selected"><img class="hero" src="${img(c)}"><h3>${c.name}</h3><p>${setName(c)} · ${rarity(c)}</p><div class="qty"><button onclick="qty(-1)">−</button><strong id="qty">1</strong><button onclick="qty(1)">＋</button></div><button class="primary" onclick="addSelected()">Add to collection</button><button class="secondary" onclick="openAdd()">Back to search</button></div>`;window._selected=c}
+function addSelected(){add(window._selected,Number(document.getElementById('qty').textContent));closeAdd()}
+function qty(d){let e=document.getElementById('qty');e.textContent=Math.max(1,Number(e.textContent)+d)}
+function render(){document.getElementById('content').innerHTML=page==='dashboard'?dashboard():collectionPage();nav()}
+render();
+</script>
+</body></html>
