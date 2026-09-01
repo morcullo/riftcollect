@@ -1,29 +1,20 @@
-# RiftCollect — static web app + serverless TCGCSV proxy
+# RiftCollect
 
-This version does NOT require Node/npm for the user. It is a normal HTML/CSS/JavaScript web app with one serverless API function.
+RiftCollect uses a GitHub Actions cache of TCGCSV data instead of calling TCGCSV during searches.
 
-Deploy the folder to Vercel. Vercel runs `api/search.js` automatically; the browser only talks to `/api/search`, while the serverless function talks to TCGCSV.
+## Repository structure
 
-TCGCSV documents restrictive CORS, so browser-side fetches to TCGCSV are not supported. It also asks applications to use a custom User-Agent and avoid excessive polling. This implementation uses a custom User-Agent and caches the product catalog in the serverless function's warm runtime.
+```text
+index.html
+vercel.json
+data/riftbound.json
+scripts/update_riftbound.py
+.github/workflows/update-riftbound.yml
+```
 
-Riftbound category ID: 89.
+Push these files to the root of the GitHub repository connected to Vercel.
 
-The app uses TCGCSV's TCGplayer-derived product and market-price data. Market prices are USD and may be null for low-volume products.
+The GitHub Action runs daily and can also be run manually:
+GitHub → Actions → Update Riftbound Data → Run workflow.
 
-
-## UI redesign
-- Light neutral theme
-- Subtle turquoise accents
-- Smaller floating pill navigation
-- Icon-only Home / Collection navigation
-- Compact centered Add button
-
-
-## Navigation refinement
-- Wider floating navigation
-- Explicit flex centering for all icons
-- Slightly larger tap targets while keeping the nav compact
-
-
-## Vercel
-This build uses `api/search.mjs` as a Vercel Web Handler. Vercel automatically serves files in `/api` as functions, so no `/api/search` rewrite is required.
+When the Action commits a new catalog, the GitHub→Vercel integration automatically deploys it.
