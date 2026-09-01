@@ -23,3 +23,7 @@ The app uses TCGCSV's TCGplayer-derived product and market-price data. Market pr
 - Wider floating navigation
 - Explicit flex centering for all icons
 - Slightly larger tap targets while keeping the nav compact
+
+
+## Vercel
+This build uses `api/search.mjs` as a Vercel Web Handler. Vercel automatically serves files in `/api` as functions, so no `/api/search` rewrite is required.
