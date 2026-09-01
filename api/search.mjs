@@ -61,54 +61,46 @@ function extended(product, key) {
 }
 
 async function loadCatalog() {
-  if (cache.products && Date.now() < cache.expires) {
-    return cache.products;
-  }
+  if (cache.products && Date.now() < cache.expires) return cache.products;
 
   const groupsResponse = await fetchJson(`${BASE}/${CATEGORY}/groups`);
   const groups = Array.isArray(groupsResponse?.results)
     ? groupsResponse.results
     : [];
 
-  if (!groups.length) {
-    throw new Error("TCGCSV returned no Riftbound sets.");
-  }
+  if (!groups.length) throw new Error("TCGCSV returned no Riftbound sets.");
 
-  const products = [];
-
-  // TCGCSV asks clients to slow down requests. Do this sequentially so
-  // Vercel does not hammer the service during a cold start.
-  for (const group of groups) {
-    try {
-      await sleep(120);
-
-      const response = await fetchJson(
-        `${BASE}/${CATEGORY}/${group.groupId}/products`
-      );
-
-      for (const product of Array.isArray(response?.results)
-        ? response.results
-        : []) {
-        const number = extended(product, "Number");
-        const rarity = extended(product, "Rarity");
-
-        // Riftbound singles have Number/Rarity in extendedData.
-        if (!number && !rarity) continue;
-
-        products.push({
-          ...product,
-          groupId: group.groupId,
-          setName: group.name,
-          setAbbreviation: group.abbreviation || "",
-          cardNumber: number,
-          rarity,
-        });
+  const jobs = groups.map((group, index) =>
+    (async () => {
+      // Stagger requests instead of hammering TCGCSV simultaneously.
+      await sleep(index * 110);
+      try {
+        const response = await fetchJson(
+          `${BASE}/${CATEGORY}/${group.groupId}/products`
+        );
+        return (Array.isArray(response?.results) ? response.results : [])
+          .map((product) => {
+            const number = extended(product, "Number");
+            const rarity = extended(product, "Rarity");
+            if (!number && !rarity) return null;
+            return {
+              ...product,
+              groupId: group.groupId,
+              setName: group.name,
+              setAbbreviation: group.abbreviation || "",
+              cardNumber: number,
+              rarity,
+            };
+          })
+          .filter(Boolean);
+      } catch {
+        return [];
       }
-    } catch {
-      // Some TCGCSV groups can legitimately return a 404/empty response.
-      // Skip those groups instead of breaking the whole catalog.
-    }
-  }
+    })()
+  );
+
+  const chunks = await Promise.all(jobs);
+  const products = chunks.flat();
 
   if (!products.length) {
     throw new Error("TCGCSV returned no Riftbound card products.");
@@ -122,31 +114,30 @@ async function loadCatalog() {
 
   return products;
 }
-
 async function loadPrices(groupIds) {
-  const prices = new Map();
-
-  for (const groupId of groupIds) {
-    try {
-      await sleep(120);
-      const response = await fetchJson(
-        `${BASE}/${CATEGORY}/${groupId}/prices`
-      );
-
-      for (const price of Array.isArray(response?.results)
-        ? response.results
-        : []) {
-        const key = `${price.productId}::${price.subTypeName || "Normal"}`;
-        prices.set(key, price);
+  const all = await Promise.all(
+    groupIds.map(async (groupId, index) => {
+      await sleep(index * 110);
+      try {
+        const response = await fetchJson(
+          `${BASE}/${CATEGORY}/${groupId}/prices`
+        );
+        return Array.isArray(response?.results) ? response.results : [];
+      } catch {
+        return [];
       }
-    } catch {
-      // Missing price data should not prevent cards from being searchable.
+    })
+  );
+
+  const prices = new Map();
+  for (const list of all) {
+    for (const price of list) {
+      const key = `${price.productId}::${price.subTypeName || "Normal"}`;
+      prices.set(key, price);
     }
   }
-
   return prices;
 }
-
 function normalize(product, prices) {
   const matches = [...prices.values()].filter(
     (price) => price.productId === product.productId
@@ -222,14 +213,12 @@ export default async function handler(request) {
       results: hits.map((card) => normalize(card, prices)),
     });
   } catch (error) {
-    return jsonResponse(
-      {
-        error:
-          error instanceof Error
-            ? error.message
-            : "Unable to load Riftbound data from TCGCSV.",
-      },
-      502
-    );
+    let message = "Unable to load Riftbound data from TCGCSV.";
+    if (error instanceof Error && error.message) message = error.message;
+    else if (typeof error === "string") message = error;
+    else if (error && typeof error === "object") {
+      message = String(error.message || error.error || JSON.stringify(error));
+    }
+    return jsonResponse({ error: message }, 502);
   }
 }
